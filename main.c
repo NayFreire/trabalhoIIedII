@@ -23,7 +23,12 @@ char* letraMinuscula(char *palavra, int tamanho){
 	int i, j;
 	char *aux = malloc(tamanho-1);
 
-	if(strchr(palavra, '.') != NULL || strchr(palavra, ',') != NULL){
+	if(strchr(palavra, '.') != NULL || 
+		strchr(palavra, ',') != NULL || 
+		strchr(palavra, '!') != NULL || 
+		strchr(palavra, '?') != NULL ||
+		strchr(palavra, ':') != NULL ||
+		strchr(palavra, ';') != NULL){
 		//printf("%s\n", palavra);
 		for(i=0;i<tamanho-1;i++){
 			aux[i] = tolower(palavra[i]);
@@ -38,27 +43,6 @@ char* letraMinuscula(char *palavra, int tamanho){
 		printf("%s*\n", palavra);
 		return palavra;
 	}
-	//strcpy(palavra, aux);
-	
-	//printf("%s %d\n", palavra, tamanho);
-	/*if(palavra[tamanho-1] == '.' || palavra[tamanho-1] == ',' || palavra[tamanho-1] == '!' || palavra[tamanho-1] == '?'){
-		for(j=0;j<tamanho-1;j++){
-			aux[j] = palavra[i];
-			//printf("/%c/", aux[j]);
-		}
-	}*/
-	
-	//palavra = aux;
-	//strcpy(palavra, aux);
-	
-	/*for(i=tamanho-1;i>=0;i--){
-		//printf("%c", palavra[i]);
-		if(palavra[i] != '.' && palavra[i] != ','){
-			aux[i] = palavra[i];
-		}
-		printf("/%c/", aux[i]);
-	}
-	printf("\n");*/
 }
 
 void insere(TNo **ptr, char palavra[]){
