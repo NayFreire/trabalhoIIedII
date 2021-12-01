@@ -19,19 +19,22 @@ void pegaPalavras(char *palavra, int tamanho){
 	printf("%s %d\n", palavra, tamanho);
 }
 
-char letraMinuscula(char *palavra, int tamanho){
+char* letraMinuscula(char *palavra, int tamanho){
 	int i, j;
-	char aux[tamanho-1];
+	char *aux = malloc(tamanho-1);
 
 	if(strchr(palavra, '.') != NULL || strchr(palavra, ',') != NULL){
 		//printf("%s\n", palavra);
 		for(i=0;i<tamanho-1;i++){
-			aux[i] = palavra[i];
+			aux[i] = tolower(palavra[i]);
 		}
 		printf("%s\n", aux);
 		return aux;
 	}
 	else{
+		for(i=0;i<tamanho;i++){
+			palavra[i] = tolower(palavra[i]);
+		}
 		printf("%s*\n", palavra);
 		return palavra;
 	}
@@ -115,7 +118,7 @@ main(){
 	TNo *ponteiro;
     FILE *arq;
     char word[50];
-    char *palavraCorrigida;
+    //char palavraCorrigida[50];
     arq = fopen("texto.txt", "r");
     int i=0, qtdPalavras=0;
     
@@ -129,9 +132,9 @@ main(){
         {
            	//printf("%s\n", word);
             qtdPalavras++;
-            palavraCorrigida = letraMinuscula(word, strlen(word));
-            printf("%s@", palavraCorrigida);
-            insere(&ponteiro, word);
+            char *palavraCorrigida = letraMinuscula(word, strlen(word));
+            //printf("%s@", palavraCorrigida);
+            insere(&ponteiro, palavraCorrigida);
         }
         fclose(arq);
     }
