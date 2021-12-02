@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
+#include <conio.h> 
+#include <locale.h>
 typedef struct no{
 	char palavra[50];
 	int qtd;
@@ -28,7 +29,13 @@ char* letraMinuscula(char *palavra, int tamanho){
 		strchr(palavra, '!') != NULL || 
 		strchr(palavra, '?') != NULL ||
 		strchr(palavra, ':') != NULL ||
-		strchr(palavra, ';') != NULL){
+		strchr(palavra, ';') != NULL
+		/*strchr(palavra, '%') != NULL ||
+		strchr(palavra, '&') != NULL ||
+		strchr(palavra, '*') != NULL ||
+		strchr(palavra, '$') != NULL ||
+		strchr(palavra, '#') != NULL ||
+		strchr(palavra, '@') != NULL*/){
 		//printf("%s\n", palavra);
 		for(i=0;i<tamanho-1;i++){
 			aux[i] = tolower(palavra[i]);
@@ -88,18 +95,24 @@ void inOrdem(TNo *ptr){
 	}
 }
 
+/*TODO: Pesquisa binária e árvores binárias*/
+void pesquisaBinaria(char palavra){
+	
+}
+
+void ABPesquisa(){
+	
+}
+
+void ABPBalanceamento(){
+	
+}
 void contQtdRepeticao(TNo *ptr, char palavra[]){
-	//TNo *aux;
-	//printf("Entrei no cont %s", palavra);
 	if(ptr != NULL){
-		//printf("entrei no while do cont");
-		//aux = ptr;
 		if(strcmp(palavra, ptr->palavra) > 0){
-			//ptr = ptr->dir;
 			contQtdRepeticao(ptr->dir, palavra);
 		}
 		else if(strcmp(palavra, ptr->palavra) < 0){
-			//ptr = ptr->esq;
 			contQtdRepeticao(ptr->esq, palavra);
 			
 		}
@@ -112,11 +125,12 @@ void contQtdRepeticao(TNo *ptr, char palavra[]){
 }
 
 main(){
+	setlocale(LC_ALL, "Portuguese");
 	TNo *ponteiro;
     FILE *arq;
     char word[50];
     //char palavraCorrigida[50];
-    arq = fopen("test.txt", "r");
+    arq = fopen("caracteresEspeciais.txt", "r");
     int i=0, qtdPalavras=0;
     
     inicializa(&ponteiro);
