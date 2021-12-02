@@ -32,6 +32,7 @@ char* letraMinuscula(char *palavra, int tamanho){
 		//printf("%s\n", palavra);
 		for(i=0;i<tamanho-1;i++){
 			aux[i] = tolower(palavra[i]);
+			//printf("[%d] [%d]= %c\n", i, tamanho-2, aux[i]);
 		}
 		printf("%s\n", aux);
 		return aux;
@@ -39,6 +40,7 @@ char* letraMinuscula(char *palavra, int tamanho){
 	else{
 		for(i=0;i<tamanho;i++){
 			palavra[i] = tolower(palavra[i]);
+			//printf("[%d] [%d]= %c\n", i, tamanho-1, palavra[i]);
 		}
 		printf("%s*\n", palavra);
 		return palavra;
@@ -47,63 +49,74 @@ char* letraMinuscula(char *palavra, int tamanho){
 
 void insere(TNo **ptr, char palavra[]){
 	//printf("%s %d\n", palavra, sizeof(palavra));
+	int inserida = contQtdRepeticao(*ptr, palavra);
+	//printf("%s inserida??? %d\n", palavra, inserida);
 	int i, j;
-	if(*ptr == NULL){
-		(*ptr) = (TNo *) malloc(sizeof(TNo));
-		(*ptr)->esq = NULL;
-		(*ptr)->dir = NULL;
-		strcpy((*ptr)->palavra, palavra);
-		(*ptr)->qtd = 1;
-		//printf("primeiro no: %s", (*ptr)->palavra);
-	}
-	else{
-		if(strcmp(palavra, (*ptr)->palavra) < 0){
-			//printf("%s - %s", palavra, (*ptr)->palavra);
-			insere(&(*ptr)->esq, palavra);
-		}
-		else if(strcmp(palavra, (*ptr)->palavra) > 0){
-			//printf("%s - %s", palavra, (*ptr)->palavra);
-			insere(&(*ptr)->dir, palavra);
+	
+	if(inserida == 0){
+		if(*ptr == NULL){
+			(*ptr) = (TNo *) malloc(sizeof(TNo));
+			(*ptr)->esq = NULL;
+			(*ptr)->dir = NULL;
+			strcpy((*ptr)->palavra, palavra);
+			(*ptr)->qtd = 1;
+			//printf("primeiro no: %s", (*ptr)->palavra);
 		}
 		else{
-			printf("igual");
-		}		
+			if(strcmp(palavra, (*ptr)->palavra) < 0){
+				//printf("%s - %s", palavra, (*ptr)->palavra);
+				insere(&(*ptr)->esq, palavra);
+			}
+			else if(strcmp(palavra, (*ptr)->palavra) > 0){
+				//printf("%s - %s", palavra, (*ptr)->palavra);
+				insere(&(*ptr)->dir, palavra);
+			}
+			else{
+				printf("igual");
+			}		
+		}
 	}
 }
 
 void inOrdem(TNo *ptr){
 	if(ptr != NULL){
 		inOrdem(ptr->esq);
+		printf("\n***********************\n");
 		printf("palavra: %s\n", ptr->palavra);
+		printf("qtd: %d\n", ptr->qtd);
 		inOrdem(ptr->dir);
 	}
 }
 
-/*void contQtdRepeticao(TNo *ptr, char palavra){
-	TNo *aux;
-	while((ptr != NULL) && (ptr->palavra != palavra)){
-		aux = ptr;
-		if(strcmp(palavra, (*ptr)->palavra) > 0){
-			ptr = ptr->dir;
+void contQtdRepeticao(TNo *ptr, char palavra[]){
+	//TNo *aux;
+	//printf("Entrei no cont %s", palavra);
+	if(ptr != NULL){
+		//printf("entrei no while do cont");
+		//aux = ptr;
+		if(strcmp(palavra, ptr->palavra) > 0){
+			//ptr = ptr->dir;
+			contQtdRepeticao(ptr->dir, palavra);
 		}
-		else{
-			ptr = ptr->esq;
+		else if(strcmp(palavra, ptr->palavra) < 0){
+			//ptr = ptr->esq;
+			contQtdRepeticao(ptr->esq, palavra);
+			
+		}
+		else if(strcmp(palavra, ptr->palavra) == 0){
+			ptr->qtd++;
+			return 1;
 		}
 	}
-	if(ptr == NULL){
-		printf("Não foi encontrada a chave");
-	}
-	else {
-		printf("Achave esta na arvore");
-	}
-}*/
+	return 0;
+}
 
 main(){
 	TNo *ponteiro;
     FILE *arq;
     char word[50];
     //char palavraCorrigida[50];
-    arq = fopen("texto.txt", "r");
+    arq = fopen("test.txt", "r");
     int i=0, qtdPalavras=0;
     
     inicializa(&ponteiro);
@@ -119,6 +132,7 @@ main(){
             char *palavraCorrigida = letraMinuscula(word, strlen(word));
             //printf("%s@", palavraCorrigida);
             insere(&ponteiro, palavraCorrigida);
+            //free(palavraCorrigida);
         }
         fclose(arq);
     }
