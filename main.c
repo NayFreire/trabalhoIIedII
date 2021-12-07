@@ -1,10 +1,10 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <conio.h> 
 #include <locale.h>
+
 typedef struct no{
 	char palavra[50];
 	int qtd;
@@ -37,10 +37,14 @@ char* letraMinuscula(char *palavra, int tamanho){
 		strchr(palavra, '#') != NULL ||
 		strchr(palavra, '@') != NULL*/){
 		//printf("%s\n", palavra);
-		for(i=0;i<tamanho-1;i++){
+		
+		for(i=0; i<tamanho; i++){
 			aux[i] = tolower(palavra[i]);
+			//tamanho--;
+			
 			//printf("[%d] [%d]= %c\n", i, tamanho-2, aux[i]);
 		}
+		
 		printf("%s\n", aux);
 		return aux;
 	}
@@ -95,7 +99,7 @@ void inOrdem(TNo *ptr){
 	}
 }
 
-/*TODO: Pesquisa binária e árvores binárias*/
+/*TODO: Pesquisa bin?ria e ?rvores bin?rias*/
 void pesquisaBinaria(char palavra){
 	
 }
@@ -130,7 +134,7 @@ main(){
     FILE *arq;
     char word[50];
     //char palavraCorrigida[50];
-    arq = fopen("caracteresEspeciais.txt", "r");
+    arq = fopen("texto.txt", "r");
     int i=0, qtdPalavras=0;
     
     inicializa(&ponteiro);
