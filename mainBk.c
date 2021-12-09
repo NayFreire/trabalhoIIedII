@@ -38,7 +38,7 @@ char* letraMinuscula(char *palavra, int tamanho){
 		strchr(palavra, '@') != NULL*/){
 		//printf("%s\n", palavra);
 		
-		for(i=0; i<tamanho; i++){
+		for(i=0; i<tamanho-1; i++){
 			aux[i] = tolower(palavra[i]);
 			//tamanho--;
 			
@@ -89,6 +89,13 @@ void insere(TNo **ptr, char palavra[]){
 	}
 }
 
+int qtdP = 0;
+int repeticoes = 0;
+
+void contPalavra(){
+	qtdP++;
+}
+
 void inOrdem(TNo *ptr){
 	if(ptr != NULL){
 		inOrdem(ptr->esq);
@@ -97,11 +104,20 @@ void inOrdem(TNo *ptr){
 		printf("qtd: %d\n", ptr->qtd);
 		inOrdem(ptr->dir);
 	}
+	contPalavra();
 }
 
 /*TODO: Pesquisa binária e árvores binárias*/
-void pesquisaBinaria(char palavra){
+void pesquisaBinaria(char palavra, int tamanho){
+	int direita = tamanho - 1;
+	int esquerda = 0;
+	int encontrado = 0;
+	int meio;
 	
+	while(esquerda <= direita && !encontrado){
+		meio = (esquerda + direita)/2;
+		//if()
+	}
 }
 
 void ABPesquisa(){
@@ -115,10 +131,11 @@ void contQtdRepeticao(TNo *ptr, char palavra[]){
 	if(ptr != NULL){
 		if(strcmp(palavra, ptr->palavra) > 0){
 			contQtdRepeticao(ptr->dir, palavra);
+			//contPalavra();
 		}
 		else if(strcmp(palavra, ptr->palavra) < 0){
 			contQtdRepeticao(ptr->esq, palavra);
-			
+			//contPalavra();
 		}
 		else if(strcmp(palavra, ptr->palavra) == 0){
 			ptr->qtd++;
@@ -134,7 +151,7 @@ main(){
     FILE *arq;
     char word[50];
     //char palavraCorrigida[50];
-    arq = fopen("texto.txt", "r");
+    arq = fopen("test.txt", "r");
     int i=0, qtdPalavras=0;
     
     inicializa(&ponteiro);
@@ -156,7 +173,11 @@ main(){
     }
     printf("qtd: %d", qtdPalavras);
     
+    char *vetor = (char*) malloc(1000*sizeof(char));
+    
     inOrdem(ponteiro);
+    printf("QTDP: %d", qtdP);
+    printf("Repeticoes: %d", repeticoes);
     
     return 0;
 }

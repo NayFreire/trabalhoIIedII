@@ -12,6 +12,10 @@ typedef struct no{
 	struct no *dir;
 }TNo;
 
+typedef struct p{
+	char palavra[20];
+}Palavra;
+
 void inicializa(TNo **ptr){
 	*ptr = NULL;
 }
@@ -38,7 +42,7 @@ char* letraMinuscula(char *palavra, int tamanho){
 		strchr(palavra, '@') != NULL*/){
 		//printf("%s\n", palavra);
 		
-		for(i=0; i<tamanho; i++){
+		for(i=0; i<tamanho-1; i++){
 			aux[i] = tolower(palavra[i]);
 			//tamanho--;
 			
@@ -89,6 +93,56 @@ void insere(TNo **ptr, char palavra[]){
 	}
 }
 
+int qtdP = 0;
+int repeticoes = 0;
+
+void contPalavra(){
+	qtdP++;
+}
+
+int naoRepetidas = 0;
+//char *vetor = (char*) malloc(1000*sizeof(char));
+
+/*void insereVetor(TNo *ptr, Palavra **vetor){
+	Palavra *aux = malloc(sizeof(Palavra));
+	aux->palavra = ptr->palavra;
+	/*printf("entrou no insere vetor");
+	mat = malloc(naoRepetidas * 10 * sizeof(char*));
+	int i, j;
+	
+	percorrePonteiro(ptr, *mat);
+	
+    for(i=0;i<naoRepetidas;i++){
+    	for(j=0;j<10;j++){
+    		printf("{%s [%d][%d]}\n", *mat, i, j);
+		}
+	}
+	printf("%s", aux->palavra);
+	printf("entrou no percorre ponteiro");
+	int i, j;
+	if(ptr != NULL){
+		insereVetor(ptr->esq, vetor);
+			*vetor->palavra = ptr->palavra;
+			printf("###### %s\n", vetor->palavra);
+		insereVetor(ptr->dir, vetor);
+	}
+}*/
+
+void percorrePonteiro(TNo *ptr, char *mat){
+	printf("entrou no percorre ponteiro");
+	int i, j;
+	if(ptr != NULL){
+		percorrePonteiro(ptr->esq, mat);
+		for(i=0;i<naoRepetidas;i++){
+			for(j=0;j<10;j++){
+				mat = ptr->palavra;
+				//printf("###### %s\n", mat);
+			}
+		}
+		percorrePonteiro(ptr->dir, mat);
+	}
+}
+
 void inOrdem(TNo *ptr){
 	if(ptr != NULL){
 		inOrdem(ptr->esq);
@@ -97,11 +151,20 @@ void inOrdem(TNo *ptr){
 		printf("qtd: %d\n", ptr->qtd);
 		inOrdem(ptr->dir);
 	}
+	contPalavra();
 }
 
-/*TODO: Pesquisa bin?ria e ?rvores bin?rias*/
-void pesquisaBinaria(char palavra){
+/*TODO: Pesquisa binária e árvores binárias*/
+void pesquisaBinaria(char palavra, int tamanho){
+	int direita = tamanho - 1;
+	int esquerda = 0;
+	int encontrado = 0;
+	int meio;
 	
+	while(esquerda <= direita && !encontrado){
+		meio = (esquerda + direita)/2;
+		//if()
+	}
 }
 
 void ABPesquisa(){
@@ -115,12 +178,14 @@ void contQtdRepeticao(TNo *ptr, char palavra[]){
 	if(ptr != NULL){
 		if(strcmp(palavra, ptr->palavra) > 0){
 			contQtdRepeticao(ptr->dir, palavra);
+			//contPalavra();
 		}
 		else if(strcmp(palavra, ptr->palavra) < 0){
 			contQtdRepeticao(ptr->esq, palavra);
-			
+			//contPalavra();
 		}
 		else if(strcmp(palavra, ptr->palavra) == 0){
+			repeticoes++;
 			ptr->qtd++;
 			return 1;
 		}
@@ -134,8 +199,8 @@ main(){
     FILE *arq;
     char word[50];
     //char palavraCorrigida[50];
-    arq = fopen("texto.txt", "r");
-    int i=0, qtdPalavras=0;
+    arq = fopen("cont.txt", "r");
+    int i=0, j = 0, qtdPalavras=0;
     
     inicializa(&ponteiro);
 
@@ -154,9 +219,17 @@ main(){
         }
         fclose(arq);
     }
-    printf("qtd: %d", qtdPalavras);
+    naoRepetidas = qtdPalavras - repeticoes;
+    printf("qtd: %d", naoRepetidas);
     
-    inOrdem(ponteiro);
+	inOrdem(ponteiro);
+    printf("QTDP: %d", qtdP);
+    printf("Repeticoes: %d", repeticoes);
+    
+	Palavra **vetor;
+	vetor = malloc(naoRepetidas*sizeof(Palavra));
+    
+    //insereVetor(ponteiro, &vetor);
     
     return 0;
 }
