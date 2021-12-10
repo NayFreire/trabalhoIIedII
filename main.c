@@ -75,21 +75,27 @@ void insere(TNo **ptr, char palavra[]){
 			(*ptr)->dir = NULL;
 			strcpy((*ptr)->palavra, palavra);
 			(*ptr)->qtd = 1;
+			
+			//insereVetor(*ptr, palavra);
 			//printf("primeiro no: %s", (*ptr)->palavra);
 		}
 		else{
 			if(strcmp(palavra, (*ptr)->palavra) < 0){
 				//printf("%s - %s", palavra, (*ptr)->palavra);
 				insere(&(*ptr)->esq, palavra);
+				//insereVetor(*ptr, palavra);
 			}
 			else if(strcmp(palavra, (*ptr)->palavra) > 0){
 				//printf("%s - %s", palavra, (*ptr)->palavra);
 				insere(&(*ptr)->dir, palavra);
+				//insereVetor(*ptr, palavra);
 			}
 			else{
 				printf("igual");
-			}		
+			}
+			//insereVetor(*ptr, palavra);		
 		}
+	insereVetor(*ptr, palavra);
 	}
 }
 
@@ -103,30 +109,38 @@ void contPalavra(){
 int naoRepetidas = 0;
 //char *vetor = (char*) malloc(1000*sizeof(char));
 
-/*void insereVetor(TNo *ptr, Palavra **vetor){
-	Palavra *aux = malloc(sizeof(Palavra));
-	aux->palavra = ptr->palavra;
-	/*printf("entrou no insere vetor");
-	mat = malloc(naoRepetidas * 10 * sizeof(char*));
-	int i, j;
+//Palavra *vetor = malloc(naoRepetidas*sizeof(Palavra));
+int i = 0;
+void insereVetor(TNo *ptr, char palavra[]){
+	i++;
+	Palavra *p;
+	char *word = malloc(strlen(palavra) * sizeof(char));
 	
-	percorrePonteiro(ptr, *mat);
+	char *vetor = malloc(naoRepetidas * sizeof(char));
 	
-    for(i=0;i<naoRepetidas;i++){
-    	for(j=0;j<10;j++){
-    		printf("{%s [%d][%d]}\n", *mat, i, j);
-		}
-	}
-	printf("%s", aux->palavra);
-	printf("entrou no percorre ponteiro");
+	//p->palavra = malloc(sizeof(strlen(palavra)));
+	//TNo *aux;
+	//printf("entrou no percorre ponteiro");
+		
+	//for(i=0;i<sizeof())
+	//printf(" ### %s\n", ptr->palavra);
+	strcpy(word, ptr->palavra);
+	//strcpy(p->palavra, word);
+	//p->palavra = ptr->palavra;
+	//strcpy(p->palavra, palavra);
+	/*for(i=0;i<strlen(ptr->palavra);i++){
+		p->palavra[i] = ptr->palavra[i];		
+	}*/
+	printf(" @@@ %s -> %d\n", word, i);
+	/*printf("entrou no percorre ponteiro");
 	int i, j;
 	if(ptr != NULL){
 		insereVetor(ptr->esq, vetor);
 			*vetor->palavra = ptr->palavra;
 			printf("###### %s\n", vetor->palavra);
 		insereVetor(ptr->dir, vetor);
-	}
-}*/
+	}*/
+}
 
 void percorrePonteiro(TNo *ptr, char *mat){
 	printf("entrou no percorre ponteiro");
@@ -226,10 +240,7 @@ main(){
     printf("QTDP: %d", qtdP);
     printf("Repeticoes: %d", repeticoes);
     
-	Palavra **vetor;
-	vetor = malloc(naoRepetidas*sizeof(Palavra));
-    
-    //insereVetor(ponteiro, &vetor);
+    //insereVetor(ponteiro, vetor);
     
     return 0;
 }
