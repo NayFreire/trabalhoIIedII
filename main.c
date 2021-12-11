@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <locale.h>
+#include <time.h>
 
 typedef struct no{
 	char palavra[50];
@@ -11,12 +12,10 @@ typedef struct no{
 	struct no *dir;
 }TNo;
 
+struct timeval comeco, final;
+
 void inicializa(TNo **ptr){
 	*ptr = NULL;
-}
-
-void pegaPalavras(char *palavra, int tamanho){
-	printf("%s %d\n", palavra, tamanho);
 }
 
 char* letraMinuscula(char *palavra, int tamanho){
@@ -35,7 +34,6 @@ char* letraMinuscula(char *palavra, int tamanho){
 		strchr(palavra, '$') != NULL ||
 		strchr(palavra, '#') != NULL ||
 		strchr(palavra, '@') != NULL){
-		//printf("%s\n", palavra);
 		
 		for(i=0; i<tamanho-1; i++){
 			aux[i] = tolower(palavra[i]);
@@ -48,7 +46,6 @@ char* letraMinuscula(char *palavra, int tamanho){
 		for(i=0;i<tamanho;i++){
 			palavra[i] = tolower(palavra[i]);
 		}
-		printf("%s*\n", palavra);
 		return palavra;
 	}
 }
@@ -89,19 +86,14 @@ void contPalavra(){
 int naoRepetidas = 0;
 
 int i = 0;
-//char *word = malloc(10 * sizeof(char));
+
 void insereVetor(TNo *ptr, char **vetor){
 	if(ptr != NULL){
 		char *word = malloc(naoRepetidas * sizeof(char));
 		strcpy(word, ptr->palavra);
 		insereVetor(ptr->esq, vetor);
-		printf("\n+++++++++++++++++++++++++\n");
-		printf("palavra: %s\n", ptr->palavra);
-		//printf("qtd: %d\n", ptr->qtd);
-		//printf("i: %d", i);
 		*(vetor+i) = word;
 		free(word);
-		printf("\n*(vetor+%d) %s", i, *(vetor+i));
 		i++;
 		insereVetor(ptr->dir, vetor);
 	}
@@ -118,24 +110,26 @@ void inOrdem(TNo *ptr){
 	contPalavra();
 }
 
-void pesquisaBinaria(char palavra, int tamanho){
-	int direita = tamanho - 1;
+void pesquisaBinaria(char **vetor, char chave){
+	int direita = naoRepetidas - 1;
 	int esquerda = 0;
 	int encontrado = 0;
 	int meio;
-	
+	printf("D: %d", direita);
 	while(esquerda <= direita && !encontrado){
 		meio = (esquerda + direita)/2;
+		if(strcmp((*vetor+meio), chave) == 0){
+			printf("Encontrado");
+		}
+		else if(chave < (*vetor+meio)){
+			direita = meio - 1;
+		}
+		else{
+			esquerda = meio + 1;
+		}
 	}
 }
 
-void ABPesquisa(){
-	
-}
-
-void ABPBalanceamento(){
-	
-}
 int contQtdRepeticao(TNo *ptr, char palavra[]){
 	if(ptr != NULL){
 		if(strcmp(palavra, ptr->palavra) > 0){
@@ -159,7 +153,7 @@ int main(){
     FILE *arq;
     char word[10];
     
-    arq = fopen("test.txt", "r");
+    arq = fopen("exemplo.txt", "r");
     int i=0, j = 0, qtdPalavras=0;
     
     inicializa(&ponteiro);
@@ -184,14 +178,21 @@ int main(){
     printf("\n\nQTDP: %d", qtdP);
     printf("\n\nRepeticoes: %d\n\n", repeticoes);
     
-    char (*vetor);
+    char* vetor;
 	vetor = calloc(naoRepetidas, sizeof(char));
     
     insereVetor(ponteiro, &vetor);
     
-    for(i=0;i<naoRepetidas;i++){
-    	printf("\t\t%s\n", *(vetor+i));
-	}
+	char *buscada = malloc(10);
+	
+	printf("Palavra buscada: ");
+	gets(buscada);  
+	
+    gettimeofday(&comeco, NULL);
+    pesquisaBinaria(&vetor, buscada);
+    gettimeofday(&final, NULL);
     
+    printf("Tempo de processamento do vetor: %ld microsegundos\n\n", ((final.tv_sec - comeco.tv_sec)*1000000L+final.tv_usec) - comeco.tv_usec);	
     return 0;
+    
 }
