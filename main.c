@@ -99,9 +99,9 @@ void insereVetor(TNo *ptr, char **vetor){
 		printf("palavra: %s\n", ptr->palavra);
 		//printf("qtd: %d\n", ptr->qtd);
 		//printf("i: %d", i);
-		strcpy(*(vetor), word);
+		*(vetor+i) = word;
 		free(word);
-		printf("\n88888888 %s %d", *(vetor), i);
+		printf("\n*(vetor+%d) %s", i, *(vetor+i));
 		i++;
 		insereVetor(ptr->dir, vetor);
 	}
@@ -159,7 +159,7 @@ int main(){
     FILE *arq;
     char word[10];
     
-    arq = fopen("exemplo.txt", "r");
+    arq = fopen("test.txt", "r");
     int i=0, j = 0, qtdPalavras=0;
     
     inicializa(&ponteiro);
@@ -184,13 +184,13 @@ int main(){
     printf("\n\nQTDP: %d", qtdP);
     printf("\n\nRepeticoes: %d\n\n", repeticoes);
     
-    char *vetor;
-	vetor = malloc(naoRepetidas * sizeof(char));
+    char (*vetor);
+	vetor = calloc(naoRepetidas, sizeof(char));
     
     insereVetor(ponteiro, &vetor);
     
     for(i=0;i<naoRepetidas;i++){
-    	printf("\t\t%s\n", vetor[i]);
+    	printf("\t\t%s\n", *(vetor+i));
 	}
     
     return 0;
