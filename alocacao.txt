@@ -1,0 +1,4 @@
+Até agora tínhamos que declarar todas as variáveis que íamos usar no programa, para que o computador pudesse alocar memória para elas. A questão então era: há um modo de eu criar uma variável, ou seja, definí-la, enquanto o programa roda (sem ter que tê-la incluido no código)? A resposta é: não exatamente.
+Não há como declarar a variável enquanto o programa roda. O que dá para fazer é alocar memória para uma variável enquanto o programa roda.
+E qual a vantagem disso? Poupa memória. Porém isso vem com um preço (como tudo na computação) - gasta mais processamento.
+E como fazemos isso? Com a função malloc e free. Malloc aloca um determinado número de bytes na memória, retornando um ponteiro para o primeiro byte alocado, ou NULL caso não tenha conseguido alocar. Free, por outro lado, libera o espaço alocado. Ambas funções pertencem à biblioteca stdlib.h. Veja um exemplo:
