@@ -95,7 +95,7 @@ void insere(TNo **ptr, char palavra[]){
 			}
 			//insereVetor(*ptr, palavra);		
 		}
-	insereVetor(*ptr, palavra);
+	//insereVetor(*ptr, palavra);
 	}
 }
 
@@ -111,36 +111,31 @@ int naoRepetidas = 0;
 
 //Palavra *vetor = malloc(naoRepetidas*sizeof(Palavra));
 int i = 0;
-void insereVetor(TNo *ptr, char palavra[]){
-	i++;
-	Palavra *p;
-	char *word = malloc(strlen(palavra) * sizeof(char));
-	
-	char *vetor = malloc(naoRepetidas * sizeof(char));
-	
-	//p->palavra = malloc(sizeof(strlen(palavra)));
-	//TNo *aux;
-	//printf("entrou no percorre ponteiro");
-		
-	//for(i=0;i<sizeof())
-	//printf(" ### %s\n", ptr->palavra);
-	strcpy(word, ptr->palavra);
-	//strcpy(p->palavra, word);
-	//p->palavra = ptr->palavra;
-	//strcpy(p->palavra, palavra);
-	/*for(i=0;i<strlen(ptr->palavra);i++){
-		p->palavra[i] = ptr->palavra[i];		
-	}*/
-	printf(" @@@ %s -> %d\n", word, i);
-	/*printf("entrou no percorre ponteiro");
-	int i, j;
+void insereVetor(TNo *ptr, char **vetor){
+	//printf("entrou aaaaaaaaaaaaaa %s\n\n", ptr->palavra);
 	if(ptr != NULL){
-		insereVetor(ptr->esq, vetor);
-			*vetor->palavra = ptr->palavra;
-			printf("###### %s\n", vetor->palavra);
-		insereVetor(ptr->dir, vetor);
-	}*/
+		insereVetor(ptr->esq, *vetor);
+		printf("\n+++++++++++++++++++++++++\n");
+		printf("palavra: %s\n", ptr->palavra);
+		printf("qtd: %d\n", ptr->qtd);
+		printf("i: %d", i);
+		//arrayFiller(ptr, i, vetor);
+		i++;
+		strcpy(vetor[i], ptr->palavra);
+		printf("\n88888888 %s %d", vetor[i], i-1);
+		insereVetor(ptr->dir, *vetor);
+	}
 }
+
+/*void arrayFiller(TNo *ptr, int count, Palavra *vetor){
+	Palavra *p;
+	char *word = malloc(strlen(ptr->palavra) * sizeof(char));
+	strcpy(word, ptr->palavra);
+	strcpy(p->palavra, word);
+	printf("\nsdghsdtg sdttghaethsrthsrthsrt %d %s", count, ptr->palavra);
+	vetor[count] = p;
+	printf("88888888 %s", vetor[count]);
+}*/
 
 void percorrePonteiro(TNo *ptr, char *mat){
 	printf("entrou no percorre ponteiro");
@@ -209,11 +204,11 @@ void contQtdRepeticao(TNo *ptr, char palavra[]){
 
 main(){
 	setlocale(LC_ALL, "Portuguese");
-	TNo *ponteiro;
+	TNo *ponteiro, *auxPonteiro;
     FILE *arq;
     char word[50];
     //char palavraCorrigida[50];
-    arq = fopen("cont.txt", "r");
+    arq = fopen("test.txt", "r");
     int i=0, j = 0, qtdPalavras=0;
     
     inicializa(&ponteiro);
@@ -235,12 +230,14 @@ main(){
     }
     naoRepetidas = qtdPalavras - repeticoes;
     printf("qtd: %d", naoRepetidas);
-    
-	inOrdem(ponteiro);
+    auxPonteiro = ponteiro;
+	//inOrdem(ponteiro); 
     printf("QTDP: %d", qtdP);
     printf("Repeticoes: %d", repeticoes);
     
-    //insereVetor(ponteiro, vetor);
+    Palavra *vetor = malloc(naoRepetidas * sizeof(Palavra));
+    
+    insereVetor(auxPonteiro, vetor);
     
     return 0;
 }
